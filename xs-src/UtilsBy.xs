@@ -95,6 +95,7 @@ CODE:
     }
 
     PUSH_MULTICALL(cv);
+    SAVESPTR(GvSV(PL_defgv));
 
     Newx(elems, items - 1, struct sort_elem);
 
@@ -160,6 +161,7 @@ CODE:
     }
 
     PUSH_MULTICALL(cv);
+    SAVESPTR(GvSV(PL_defgv));
 
     Newx(elems, items - 1, struct sort_elem);
 
@@ -227,6 +229,7 @@ CODE:
     }
 
     PUSH_MULTICALL(cv);
+    SAVESPTR(GvSV(PL_defgv));
 
     Newx(elems, items - 1, struct sort_elem);
 
@@ -306,6 +309,7 @@ CODE:
     }
 
     PUSH_MULTICALL(cv);
+    SAVESPTR(GvSV(PL_defgv));
 
     for (i = 1; i < items; i++) {
         STRLEN len;
