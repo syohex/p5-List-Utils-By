@@ -1,8 +1,28 @@
 package List::UtilsBy::XS;
-
 use 5.008_001;
+
 use strict;
+use warnings;
+
+use XSLoader;
+
+use base qw(Exporter);
+
 our $VERSION = '0.01';
+
+our @EXPORT_OK = qw(
+    sort_by
+    rev_sort_by
+    nsort_by
+    rev_nsort_by
+
+    max_by
+    min_by
+
+    uniq_by
+);
+
+XSLoader::load __PACKAGE__, $VERSION;
 
 1;
 __END__
