@@ -20,6 +20,8 @@ our @EXPORT_OK = qw(
     min_by
 
     uniq_by
+
+    partition_by
 );
 
 XSLoader::load __PACKAGE__, $VERSION;

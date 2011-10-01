@@ -333,3 +333,65 @@ CODE:
 
     XSRETURN(av_len(tmps) + 1);
 }
+
+void
+partition_by (code, ...)
+    SV *code
+PROTOTYPE: &@
+CODE:
+{
+    dMULTICALL;
+    GV *gv;
+    HV *stash;
+    I32 gimme = G_SCALAR;
+    SV **args = &PL_stack_base[ax];
+    int i;
+    HV *rh;
+    HE *iter = NULL;
+
+    if (items <= 1) {
+        XSRETURN_EMPTY;
+    }
+
+    rh = (HV *)sv_2mortal((SV *)newHV());
+
+    cv = sv_2cv(code, &stash, &gv, 0);
+    if (cv == Nullcv) {
+       croak("Not a subroutine reference");
+    }
+
+    PUSH_MULTICALL(cv);
+    SAVESPTR(GvSV(PL_defgv));
+
+    for (i = 1; i < items; i++) {
+        STRLEN len;
+        char *str;
+
+        GvSV(PL_defgv) = args[i];
+        MULTICALL;
+
+        str = SvPV(*PL_stack_sp, len);
+        if (!hv_exists(rh, str, len)) {
+            AV* av = (AV *)sv_2mortal((SV *)newAV());
+            av_push(av, newSVsv(args[i]));
+            (void)hv_store(rh, str, len, newRV_inc((SV *)av), 0);
+        } else {
+            AV *av = (AV *)SvRV(*hv_fetch(rh, str, len, 0));
+            av_push(av, newSVsv(args[i]));
+        }
+    }
+
+    POP_MULTICALL;
+
+    hv_iterinit(rh);
+
+    i = 0;
+    while ( (iter = hv_iternext( rh )) != NULL ) {
+          ST(i) = hv_iterkeysv(iter);
+          i++;
+          ST(i) = hv_iterval(rh, iter);
+          i++;
+    }
+
+    XSRETURN(i);
+}
