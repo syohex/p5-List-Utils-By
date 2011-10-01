@@ -22,6 +22,7 @@ our @EXPORT_OK = qw(
     uniq_by
 
     partition_by
+    count_by
 );
 
 XSLoader::load __PACKAGE__, $VERSION;
