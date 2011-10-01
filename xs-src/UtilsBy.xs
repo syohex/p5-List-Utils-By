@@ -7,7 +7,7 @@ struct sort_elem {
     SV *orig;
 };
 
-I32
+static I32
 sv_cmp_str_asc(pTHX_ SV *sv1, SV *sv2)
 {
     struct sort_elem *se1, *se2;
@@ -18,7 +18,7 @@ sv_cmp_str_asc(pTHX_ SV *sv1, SV *sv2)
     return sv_cmp_locale(se1->key, se2->key);
 }
 
-I32
+static I32
 sv_cmp_str_desc(pTHX_ SV *sv1, SV *sv2)
 {
     struct sort_elem *se1, *se2;
@@ -29,7 +29,7 @@ sv_cmp_str_desc(pTHX_ SV *sv1, SV *sv2)
     return sv_cmp_locale(se2->key, se1->key);
 }
 
-I32
+static I32
 sv_cmp_number_asc(pTHX_ SV *sv1, SV *sv2)
 {
     struct sort_elem *se1, *se2;
@@ -46,7 +46,7 @@ sv_cmp_number_asc(pTHX_ SV *sv1, SV *sv2)
            ? 0 : -1;
 }
 
-I32
+static I32
 sv_cmp_number_desc(pTHX_ SV *sv1, SV *sv2)
 {
     struct sort_elem *se1, *se2;
