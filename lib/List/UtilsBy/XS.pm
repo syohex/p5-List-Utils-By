@@ -23,6 +23,8 @@ our @EXPORT_OK = qw(
 
     partition_by
     count_by
+
+    zip_by
 );
 
 XSLoader::load __PACKAGE__, $VERSION;

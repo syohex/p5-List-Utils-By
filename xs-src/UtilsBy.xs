@@ -456,3 +456,74 @@ CODE:
 
     XSRETURN(i);
 }
+
+void
+zip_by (code, ...)
+    SV *code
+PROTOTYPE: &@
+CODE:
+{
+    SV **args = &PL_stack_base[ax];
+    AV *tmps, *retvals;
+    IV i, max_length = -1, len;
+
+    if (items <= 1) {
+        XSRETURN_EMPTY;
+    }
+
+    tmps = (AV *)sv_2mortal((SV *)newAV());
+    retvals = (AV *)sv_2mortal((SV *)newAV());
+
+    for (i = 1; i < items; i++) {
+        if (!SvROK(args[i]) || (SvTYPE(SvRV(args[i])) != SVt_PVAV)) {
+            croak("arguments should be ArrayRef");
+        }
+
+        len = av_len((AV*)SvRV(args[i]));
+        if (len > max_length) {
+            max_length = len;
+        }
+
+        av_push(tmps, newSVsv(args[i]));
+    }
+
+    SAVESPTR(GvSV(PL_defgv));
+
+    {
+        dSP;
+        IV j, count;
+
+        for (i = 0; i <= max_length; i++) {
+            PUSHMARK(sp);
+            for (j = 1; j < items; j++) {
+                AV *av = (AV*)SvRV( *av_fetch(tmps, j-1, 0) );
+
+                if (av_exists(av, i)) {
+                    SV *elem = *av_fetch(av, i, 0);
+                    XPUSHs(sv_2mortal(newSVsv(elem)));
+                } else {
+                    XPUSHs(&PL_sv_undef);
+                }
+            }
+            PUTBACK;
+
+            count = call_sv(code, G_ARRAY);
+
+            SPAGAIN;
+
+            len = av_len(retvals);
+            for (j = 0; j < count; j++) {
+                av_store(retvals, len + (count - j), newSVsv(POPs));
+            }
+
+            PUTBACK;
+        }
+    }
+
+    len = av_len(retvals) + 1;
+    for (i = 0; i < len; i++) {
+        ST(i) = *av_fetch(retvals, i, 0);
+    }
+
+    XSRETURN(len);
+}
