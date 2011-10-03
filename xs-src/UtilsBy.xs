@@ -600,3 +600,65 @@ CODE:
 
     XSRETURN(len);
 }
+
+void
+bundle_by (code, ...)
+    SV *code
+PROTOTYPE: &@
+CODE:
+{
+    dSP;
+    SV **args = &PL_stack_base[ax];
+    AV *retvals;
+    IV argnum;
+    I32 i, j, count, len, loop;
+
+    if (items <= 1) {
+        XSRETURN_EMPTY;
+    }
+
+    argnum = SvIV(args[1]);
+    if (argnum <= 0) {
+        croak("bundle number is larger than 0");
+    }
+
+    retvals = (AV *)sv_2mortal((SV *)newAV());
+
+    SAVESPTR(GvSV(PL_defgv));
+
+    for (i = 2, loop = 0; i < items; i += argnum, loop++) {
+        ENTER;
+        SAVETMPS;
+
+        PUSHMARK(sp);
+        for (j = 0; j < argnum; j++) {
+            I32 index = (loop * argnum) + j + 2;
+            if (SvOK(args[index])) {
+                XPUSHs(sv_2mortal(newSVsv(args[index])));
+            } else {
+                XPUSHs(&PL_sv_undef);
+            }
+        }
+        PUTBACK;
+
+        count = call_sv(code, G_ARRAY);
+
+        SPAGAIN;
+
+        len = av_len(retvals);
+        for (j = 0; j < count; j++) {
+            av_store(retvals, len + (count - j), newSVsv(POPs));
+        }
+
+        PUTBACK;
+        FREETMPS;
+        LEAVE;
+    }
+
+    len = av_len(retvals) + 1;
+    for (i = 0; i < len; i++) {
+        ST(i) = *av_fetch(retvals, i, 0);
+    }
+
+    XSRETURN(len);
+}
