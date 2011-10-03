@@ -529,3 +529,74 @@ CODE:
 
     XSRETURN(len);
 }
+
+void
+extract_by (code, ...)
+    SV *code
+PROTOTYPE: &\@
+CODE:
+{
+    dMULTICALL;
+    GV *gv;
+    HV *stash;
+    I32 gimme = G_SCALAR;
+    SV **args = &PL_stack_base[ax];
+    IV i, len;
+    AV *ret_vals, *remains, *origs;
+
+    if (items <= 1) {
+        XSRETURN_EMPTY;
+    }
+
+    ret_vals = (AV *)sv_2mortal((SV *)newAV());
+    remains  = (AV *)sv_2mortal((SV *)newAV());
+
+    cv = sv_2cv(code, &stash, &gv, 0);
+    if (cv == Nullcv) {
+       croak("Not a subroutine reference");
+    }
+
+    if (!SvROK(args[1]) || (SvTYPE(SvRV(args[1])) != SVt_PVAV)) {
+        croak("arguments should be ArrayRef");
+    }
+
+    origs = (AV*)SvRV(args[1]);
+    len = av_len((AV*)SvRV(args[1])) + 1;
+
+    PUSH_MULTICALL(cv);
+    SAVESPTR(GvSV(PL_defgv));
+
+    for (i = 0; i < len; i++) {
+        SV *val, *arg;
+
+        arg = *av_fetch(origs, i, 0);
+        GvSV(PL_defgv) = arg;
+        MULTICALL;
+
+        val = newSVsv(*PL_stack_sp);
+        if (SvTRUE(val)) {
+            av_push(ret_vals, newSVsv(arg));
+        } else {
+            SV *val = newSVsv(arg);
+            SvFLAGS(val) = SvFLAGS(arg);
+            av_push(remains, val);
+        }
+    }
+
+    POP_MULTICALL;
+
+    av_clear(origs);
+
+    len = av_len(remains) + 1;
+    for (i = 0; i < len; i++) {
+        SV *val = *av_fetch(remains, i, 0);
+        av_push(origs, newSVsv(val));
+    }
+
+    len = av_len(ret_vals) + 1;
+    for (i = 0; i < len; i++) {
+        ST(i) = sv_mortalcopy(*av_fetch(ret_vals, i, 0));
+    }
+
+    XSRETURN(len);
+}

@@ -25,6 +25,8 @@ our @EXPORT_OK = qw(
     count_by
 
     zip_by
+
+    extract_by
 );
 
 XSLoader::load __PACKAGE__, $VERSION;
