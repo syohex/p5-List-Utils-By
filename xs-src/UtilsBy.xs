@@ -463,9 +463,11 @@ zip_by (code, ...)
 PROTOTYPE: &@
 CODE:
 {
+    dSP;
     SV **args = &PL_stack_base[ax];
     AV *tmps, *retvals;
-    IV i, max_length = -1, len;
+    I32 i, j, count;
+    I32 len, max_length = -1;
 
     if (items <= 1) {
         XSRETURN_EMPTY;
@@ -489,39 +491,33 @@ CODE:
 
     SAVESPTR(GvSV(PL_defgv));
 
-    {
-        dSP;
-        IV j, count;
-
+    for (i = 0; i <= max_length; i++) {
         ENTER;
         SAVETMPS;
 
-        for (i = 0; i <= max_length; i++) {
-            PUSHMARK(sp);
-            for (j = 1; j < items; j++) {
-                AV *av = (AV*)SvRV( *av_fetch(tmps, j-1, 0) );
+        PUSHMARK(sp);
+        for (j = 1; j < items; j++) {
+            AV *av = (AV*)SvRV( *av_fetch(tmps, j-1, 0) );
 
-                if (av_exists(av, i)) {
-                    SV *elem = *av_fetch(av, i, 0);
-                    XPUSHs(sv_2mortal(newSVsv(elem)));
-                } else {
-                    XPUSHs(&PL_sv_undef);
-                }
+            if (av_exists(av, i)) {
+                SV *elem = *av_fetch(av, i, 0);
+                XPUSHs(sv_2mortal(newSVsv(elem)));
+            } else {
+                XPUSHs(&PL_sv_undef);
             }
-            PUTBACK;
+        }
+        PUTBACK;
 
-            count = call_sv(code, G_ARRAY);
+        count = call_sv(code, G_ARRAY);
 
-            SPAGAIN;
+        SPAGAIN;
 
-            len = av_len(retvals);
-            for (j = 0; j < count; j++) {
-                av_store(retvals, len + (count - j), newSVsv(POPs));
-            }
-
-            PUTBACK;
+        len = av_len(retvals);
+        for (j = 0; j < count; j++) {
+            av_store(retvals, len + (count - j), newSVsv(POPs));
         }
 
+        PUTBACK;
         FREETMPS;
         LEAVE;
     }
