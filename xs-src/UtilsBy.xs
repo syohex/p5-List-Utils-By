@@ -493,6 +493,9 @@ CODE:
         dSP;
         IV j, count;
 
+        ENTER;
+        SAVETMPS;
+
         for (i = 0; i <= max_length; i++) {
             PUSHMARK(sp);
             for (j = 1; j < items; j++) {
@@ -518,6 +521,9 @@ CODE:
 
             PUTBACK;
         }
+
+        FREETMPS;
+        LEAVE;
     }
 
     len = av_len(retvals) + 1;
