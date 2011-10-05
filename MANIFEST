@@ -1,4 +1,5 @@
 .gitignore
+benchmark/bench.pl
 Changes
 inc/Module/Install.pm
 inc/Module/Install/AuthorTests.pm

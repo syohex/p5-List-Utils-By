@@ -12,4 +12,5 @@
 \.gz$
 \.cvsignore
 \.shipit
+ppport.h
 MYMETA
