@@ -32,6 +32,7 @@ our @EXPORT_OK = qw(
 
     bundle_by
 );
+our %EXPORT_TAGS = ( all => \@EXPORT_OK );
 
 XSLoader::load __PACKAGE__, $VERSION;
 
