@@ -648,7 +648,7 @@ CODE:
        not already been called
     */
     if (!PL_srand_called) {
-        (void)seedDrand01((Rand_seed_t)Perl_seed(aTHX));
+        (void)seedDrand01((Rand_seed_t)seed());
         PL_srand_called = TRUE;
     }
 
