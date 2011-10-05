@@ -5,7 +5,6 @@ use warnings;
 use List::UtilsBy;
 use List::UtilsBy::XS;
 
-use List::Util qw(shuffle);
 use Benchmark qw(cmpthese);
 use String::Random;
 
