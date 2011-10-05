@@ -28,6 +28,8 @@ our @EXPORT_OK = qw(
 
     extract_by
 
+    weighted_shuffle_by
+
     bundle_by
 );
 

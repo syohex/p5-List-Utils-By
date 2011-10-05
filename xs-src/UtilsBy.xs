@@ -602,6 +602,102 @@ CODE:
 }
 
 void
+weighted_shuffle_by (code, ...)
+    SV *code
+PROTOTYPE: &@
+CODE:
+{
+    dMULTICALL;
+    GV *gv;
+    HV *stash;
+    I32 gimme = G_SCALAR;
+    SV **args = &PL_stack_base[ax];
+    I32 i, len;
+    AV *weights, *origs, *retvals;
+
+    if (items <= 1) {
+        XSRETURN_EMPTY;
+    }
+
+    weights = (AV *)sv_2mortal((SV *)newAV());
+    origs   = (AV *)sv_2mortal((SV *)newAV());
+    retvals = (AV *)sv_2mortal((SV *)newAV());
+
+    cv = sv_2cv(code, &stash, &gv, 0);
+    if (cv == Nullcv) {
+       croak("Not a subroutine reference");
+    }
+
+    PUSH_MULTICALL(cv);
+    SAVESPTR(GvSV(PL_defgv));
+
+    for (i = 1; i < items; i++) {
+        av_push(origs, newSVsv(args[i]));
+
+        GvSV(PL_defgv) = args[i];
+        MULTICALL;
+
+        av_push(weights, newSVsv(*PL_stack_sp));
+    }
+
+    POP_MULTICALL;
+
+    /* Initialize Drand01 if rand() or srand() has
+       not already been called
+    */
+    if (!PL_srand_called) {
+        (void)seedDrand01((Rand_seed_t)Perl_seed(aTHX));
+        PL_srand_called = TRUE;
+    }
+
+    while ( (av_len(origs) + 1) > 1) {
+        IV total = 0;
+        I32 select;
+        I32 idx;
+        SV *selected, *last;
+
+        len = av_len(weights) + 1;
+        for (i = 0; i < len; i++) {
+            total += SvIV(*av_fetch(weights, i, 0));
+        }
+
+        select = (I32)(Drand01() * (double)total);
+        idx = 0;
+        while (select >= SvIV(*av_fetch(weights, idx, 0))) {
+            select -= SvIV(*av_fetch(weights, idx, 0));
+
+            if (av_len(weights) > idx) {
+                idx++;
+            } else {
+                break;
+            }
+        }
+
+        selected = *av_fetch(origs, idx, 0);
+        av_push(retvals, newSVsv(selected));
+
+        last = *av_fetch(origs, av_len(origs), 0);
+        av_store(origs, idx, last);
+        (void)av_pop(origs);
+
+        last = *av_fetch(weights, av_len(weights), 0);
+        av_store(weights, idx, last);
+        (void)av_pop(weights);
+    }
+
+    len = av_len(origs) + 1;
+    for (i = 0 ; i < len; i++) {
+        av_push(retvals, av_shift(origs));
+    }
+
+    for (i = 1 ; i < items; i++) {
+        ST(i-1) = sv_2mortal(newSVsv( *av_fetch(retvals, i-1, 0) ));
+    }
+
+    XSRETURN(items-1);
+}
+
+void
 bundle_by (code, ...)
     SV *code
 PROTOTYPE: &@
