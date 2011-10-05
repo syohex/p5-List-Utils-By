@@ -67,6 +67,14 @@ cmpthese(-1, {
 });
 print "\n";
 
+# uniq_by
+print "Bench: uniq_by\n";
+cmpthese(-1, {
+    pp => sub { List::UtilsBy::uniq_by { $_->{name} } @array },
+    xs => sub { List::UtilsBy::XS::uniq_by { $_->{name} } @array },
+});
+print "\n";
+
 # partition_by
 print "Bench: partition_by\n";
 cmpthese(-1, {
