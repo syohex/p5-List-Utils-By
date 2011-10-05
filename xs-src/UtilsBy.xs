@@ -2,6 +2,8 @@
 #include "perl.h"
 #include "XSUB.h"
 
+#include "ppport.h"
+
 struct sort_elem {
     SV *key;
     SV *orig;
