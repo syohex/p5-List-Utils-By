@@ -13,19 +13,19 @@ my @array;
 is_deeply( [ max_by {} ], [], 'empty list yields empty' );
 
 $got = scalar (max_by { $_ } 10);
-ok($got == 10, 'unit list yields value in scalar context');
+is($got, 10, 'unit list yields value in scalar context');
 is_deeply( [ max_by { $_ } 10 ], [ 10 ], 'unit list yields unit list value' );
 
 is_deeply( ( scalar max_by { $_ } 10, 20 ), 20, 'identity function on $_' );
 
 $got = scalar(max_by { length $_ } "a", "ccc", "bb");
-ok($got eq 'ccc', "length function in scalar context");
+is($got, 'ccc', "length function in scalar context");
 
 @gots = max_by { length $_ } "a", "ccc", "bb";
 is_deeply(\@gots, [ 'ccc' ], "length function in list context");
 
 $got = scalar(max_by { length $_ } "a", "ccc", "bb", "ddd");
-ok($got eq 'ccc', "first max element");
+is($got, 'ccc', "first max element");
 
 @gots = max_by { length $_ } "a", "ccc", "bb", "ddd";
 $expected = [ qw/ccc ddd/ ];

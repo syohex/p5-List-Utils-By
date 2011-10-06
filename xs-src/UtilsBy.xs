@@ -212,14 +212,15 @@ CODE:
     GV *gv;
     HV *stash;
     I32 gimme = G_SCALAR;
-    SV **args = &PL_stack_base[ax];
+    SV **args = &ST(1);
+    I32 const len = items - 1;
     int i;
     AV *tmps;
     IV max;
     IV ret_count = 0;
     struct sort_elem *elems, *first;
 
-    if (items <= 1) {
+    if (len < 1) {
         XSRETURN_EMPTY;
     }
 
@@ -235,8 +236,8 @@ CODE:
 
     Newx(elems, items - 1, struct sort_elem);
 
-    for (i = 1; i < items; i++) {
-        struct sort_elem *elem = &elems[i - 1];
+    for (i = 0; i < len; i++) {
+        struct sort_elem *elem = &elems[i];
 
         GvSV(PL_defgv) = args[i];
         MULTICALL;
@@ -250,15 +251,21 @@ CODE:
     POP_MULTICALL;
 
     if (ix) {
-        sortsv(AvARRAY(tmps), av_len(tmps) + 1, sv_cmp_number_desc);
+        sortsv(AvARRAY(tmps), len, sv_cmp_number_desc);
     } else {
-        sortsv(AvARRAY(tmps), av_len(tmps) + 1, sv_cmp_number_asc);
+        sortsv(AvARRAY(tmps), len, sv_cmp_number_asc);
+    }
+
+    for(i = 0; i < len; i++) {
+        struct sort_elem* elem
+            = (struct sort_elem*)SvIVx(*av_fetch(tmps, i, TRUE));
+        sv_2mortal(elem->key);
+        sv_2mortal(elem->orig);
     }
 
     first = (struct sort_elem *)SvIV(*av_fetch(tmps, 0, 0));
     max   = SvIV(first->key);
-    ST(0) = sv_2mortal(first->orig);
-    (void)sv_2mortal(first->key);
+    ST(0) = first->orig;
     ret_count++;
 
     if (GIMME_V != G_ARRAY) {
@@ -270,8 +277,7 @@ CODE:
         elem  = (struct sort_elem *)SvIV(*av_fetch(tmps, i-1, 0));
 
         if (max == SvIV(elem->key)) {
-            ST(ret_count) = sv_2mortal(elem->orig);
-            (void)sv_2mortal(elem->key);
+            ST(ret_count) = elem->orig;
             ret_count++;
         } else {
             goto ret;
