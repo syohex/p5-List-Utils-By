@@ -1,10 +1,15 @@
 #!perl
 use strict;
 use warnings;
-use Test::More;
-use Test::LeakTrace;
 
-use List::UtilsBy::XS qw(:all);
+BEGIN {
+    use Test::More;
+
+    eval "use Test::LeakTrace";
+    plan skip_all => "Test::LeakTrace required for memory leak testing" if $@;
+
+    use List::UtilsBy::XS qw(:all);
+};
 
 no_leaks_ok {
     my @a = sort_by { $_ } 1 .. 10;
