@@ -18,6 +18,13 @@ for my $i (1..100) {
 }
 
 print "Benchmarking List::Util and List::UtilsBy::XS\n";
+# partition_by
+print "Bench: partition_by\n";
+cmpthese(-1, {
+    pp => sub { List::UtilsBy::partition_by { $_->{name} } @array },
+    xs => sub { List::UtilsBy::XS::partition_by { $_->{name} } @array },
+});
+print "\n";die;
 
 # sort_by
 print "Bench: sort_by\n";
