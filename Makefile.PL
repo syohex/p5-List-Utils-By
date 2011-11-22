@@ -6,7 +6,6 @@ name 'List-UtilsBy-XS';
 all_from 'lib/List/UtilsBy/XS.pm';
 
 test_requires 'Test::More' => '0.88';
-test_requires 'Test::LeakTrace';
 
 cc_define q{-DPERL_EXT};
 cc_warnings;
