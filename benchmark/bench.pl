@@ -18,13 +18,6 @@ for my $i (1..100) {
 }
 
 print "Benchmarking List::Util and List::UtilsBy::XS\n";
-# partition_by
-print "Bench: partition_by\n";
-cmpthese(-1, {
-    pp => sub { List::UtilsBy::partition_by { $_->{name} } @array },
-    xs => sub { List::UtilsBy::XS::partition_by { $_->{name} } @array },
-});
-print "\n";die;
 
 # sort_by
 print "Bench: sort_by\n";
@@ -103,6 +96,14 @@ print "Bench: zip_by\n";
 cmpthese(-1, {
     pp => sub { List::UtilsBy::zip_by { $_[0] + $_[1] } [0..100], [100..200] },
     xs => sub { List::UtilsBy::XS::zip_by { $_[0] + $_[1] } [0..100], [100..200] },
+});
+print "\n";
+
+# unzip_by
+print "Bench: unzip_by\n";
+cmpthese(-1, {
+    pp => sub { List::UtilsBy::unzip_by { ($_, $_) } (0..100) },
+    xs => sub { List::UtilsBy::XS::unzip_by { ($_, $_) } (0..100) },
 });
 print "\n";
 
