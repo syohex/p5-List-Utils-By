@@ -539,6 +539,68 @@ CODE:
 }
 
 void
+unzip_by (code, ...)
+    SV *code
+PROTOTYPE: &@
+CODE:
+{
+    dSP;
+    SV **args = &PL_stack_base[ax];
+    AV *tmps, *retvals;
+    I32 i, j, count;
+    I32 len, initialized_num = -1;
+
+    if (items <= 1) {
+        XSRETURN_EMPTY;
+    }
+
+    retvals = (AV *)sv_2mortal((SV *)newAV());
+
+    SAVESPTR(GvSV(PL_defgv));
+
+    for (i = 1; i < items; i++) {
+        ENTER;
+        SAVETMPS;
+
+        PUSHMARK(sp);
+        XPUSHs(sv_2mortal(newSVsv(args[i])));
+        PUTBACK;
+
+        GvSV(PL_defgv) = args[i];
+        count = call_sv(code, G_ARRAY);
+
+        SPAGAIN;
+
+        for (j = 0; j < count; j++) {
+            AV *tmps;
+            SV *ret = newSVsv(POPs);
+
+            if (j > initialized_num) {
+                tmps = newAV();
+                av_push(tmps, ret);
+                av_push(retvals, newRV((SV*)tmps));
+
+                initialized_num++;
+            } else {
+                tmps = (AV *)SvRV((SV*)*av_fetch(retvals, j, 0));
+                av_push(tmps, ret);
+            }
+        }
+
+        PUTBACK;
+        FREETMPS;
+        LEAVE;
+    }
+
+    len = av_len(retvals) + 1;
+    for (i = 0; i < len; i++) {
+        ST(i) = *av_fetch(retvals, i, 0);
+    }
+
+    XSRETURN(len);
+}
+
+void
 extract_by (code, ...)
     SV *code
 PROTOTYPE: &\@
