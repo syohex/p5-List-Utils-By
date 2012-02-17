@@ -25,6 +25,7 @@ our @EXPORT_OK = qw(
     count_by
 
     zip_by
+    unzip_by
 
     extract_by
 
