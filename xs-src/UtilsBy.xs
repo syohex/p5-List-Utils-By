@@ -546,9 +546,9 @@ CODE:
 {
     dSP;
     SV **args = &PL_stack_base[ax];
-    AV *tmps, *retvals;
+    AV *retvals;
     I32 i, j, count;
-    I32 len, initialized_num = -1;
+    I32 len, max_len = 0;
 
     if (items <= 1) {
         XSRETURN_EMPTY;
@@ -571,20 +571,19 @@ CODE:
 
         SPAGAIN;
 
-        for (j = 0; j < count; j++) {
-            AV *tmps;
-            SV *ret = newSVsv(POPs);
+        for (j = max_len; j < count; j++) {
+            AV *tmp = (AV *)sv_2mortal((SV *)newAV());
+            av_store(retvals, j, newRV((SV*)tmp));
+        }
 
-            if (j > initialized_num) {
-                tmps = newAV();
-                av_push(tmps, ret);
-                av_push(retvals, newRV((SV*)tmps));
+        if (max_len < count) {
+            max_len = count;
+        }
 
-                initialized_num++;
-            } else {
-                tmps = (AV *)SvRV((SV*)*av_fetch(retvals, j, 0));
-                av_push(tmps, ret);
-            }
+        for (j = count - 1; j >= 0; j--) {
+            SV *ret  = newSVsv(POPs);
+            AV *tmp = (AV *)SvRV((SV*)*av_fetch(retvals, j, 0));
+            av_store(tmp, i - 1, ret);
         }
 
         PUTBACK;
@@ -593,6 +592,13 @@ CODE:
     }
 
     len = av_len(retvals) + 1;
+    for (i = 0; i < len; i++) {
+        AV *tmp = (AV *)SvRV((SV*)*av_fetch(retvals, i, 0));
+        for (j = av_len(tmp) + 1; j < (items - 1); j++) {
+            av_push(tmp, &PL_sv_undef);
+        }
+    }
+
     for (i = 0; i < len; i++) {
         ST(i) = *av_fetch(retvals, i, 0);
     }
