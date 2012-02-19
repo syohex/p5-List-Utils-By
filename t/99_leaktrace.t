@@ -39,6 +39,10 @@ no_leaks_ok {
     my @a = zip_by { $_ } [1..10], [1..10];
 } 'zip_by';
 
+no_leaks_ok {
+    my @a = unzip_by { $_ } 1..10;
+} 'unzip_by';
+
 my @array = (1..10);
 no_leaks_ok {
     my @a = extract_by { $_ } @array;
