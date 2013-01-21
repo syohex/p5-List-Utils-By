@@ -206,6 +206,8 @@ PROTOTYPE: &@
 ALIAS:
     min_by = 0
     max_by = 1
+    nmin_by = 2
+    nmax_by = 3
 CODE:
 {
     dMULTICALL;
@@ -250,7 +252,7 @@ CODE:
 
     POP_MULTICALL;
 
-    if (ix) {
+    if (ix & 0x1) {
         sortsv(AvARRAY(tmps), len, sv_cmp_number_desc);
     } else {
         sortsv(AvARRAY(tmps), len, sv_cmp_number_asc);

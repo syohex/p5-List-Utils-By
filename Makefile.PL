@@ -7,6 +7,8 @@ all_from 'lib/List/UtilsBy/XS.pm';
 
 test_requires 'Test::More' => '0.88';
 
+requires 'parent';
+
 cc_define q{-DPERL_EXT};
 cc_warnings;
 use_ppport 3.20;

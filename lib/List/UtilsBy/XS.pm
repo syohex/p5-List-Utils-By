@@ -6,7 +6,7 @@ use warnings;
 
 use XSLoader;
 
-use base qw(Exporter);
+use parent qw/Exporter/;
 
 our $VERSION = '0.01';
 
@@ -16,8 +16,8 @@ our @EXPORT_OK = qw(
     nsort_by
     rev_nsort_by
 
-    max_by
-    min_by
+    max_by nmax_by
+    min_by nmin_by
 
     uniq_by
 

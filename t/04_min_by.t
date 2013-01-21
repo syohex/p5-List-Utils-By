@@ -3,7 +3,7 @@ use warnings;
 
 use Test::More;
 
-use List::UtilsBy::XS qw(min_by);
+use List::UtilsBy::XS qw(min_by nmin_by);
 
 my $expected;
 my $got;
@@ -30,5 +30,7 @@ ok($got eq 'a', "first max element");
 @gots = min_by { length $_ } "a", "ccc", "b", "ddd";
 $expected = [ qw/a b/ ];
 is_deeply(\@gots, $expected, 'ties yield all maximal in list context');
+
+is_deeply( ( scalar nmin_by { $_ } 10, 20 ), 10, 'nmin_by alias' );
 
 done_testing;
