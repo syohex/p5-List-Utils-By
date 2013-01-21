@@ -70,14 +70,16 @@ Same as L<List::UtilsBy>.
 
 Some functions are implemented by lightweight callback API.
 C<sort_by>, C<rev_sort_by>, C<nsort_by>, C<rev_nsort_by>,
-C<min_by>, C<max_by>, C<uniq_by>, C<partion_by>, C<count_by>,
-C<extract_by>, C<weighted_shuffle_by> are limitated some features.
+C<min_by>, C<max_by>, C<nmin_by>, C<nmax_by>, C<uniq_by>, C<partion_by>,
+C<count_by>, C<extract_by>, C<weighted_shuffle_by> are limitated some features.
 
 Limitations are:
 
-=head2 Can't change argument C<$_>
+=head2 Don't change argument C<$_>
 
-You can't modify C<$_> in callback subroutine.
+L<List::UtilsBy> localizes C<$_> in the code block, but List::UtilsBy::XS
+doesn't localize it and it is only alias same as C<map>, C<grep>. So you
+should not modify C<$_> in callback subroutine.
 
 =head2 Can't access to arguments as C<@_>
 
