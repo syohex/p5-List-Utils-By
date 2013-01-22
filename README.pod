@@ -22,7 +22,41 @@ Functions are more fast than original ones.
 
 =head1 FUNCTIONS
 
-Same as L<List::UtilsBy>.
+Same as L<List::UtilsBy>
+
+List::UtilsBy::XS implements following functions.
+
+=over
+
+=item sort_by
+
+=item nsort_by
+
+=item rev_sort_by
+
+=item rev_nsort_by
+
+=item max_by(alias nmax_by)
+
+=item min_by(alias nmin_by)
+
+=item uniq_by
+
+=item partition_by
+
+=item count_by
+
+=item zip_by
+
+=item unzip_by
+
+=item extract_by
+
+=item weighted_shuffle_by
+
+=item bundle_by
+
+=back
 
 =head1 LIMITATIONS
 
@@ -33,13 +67,13 @@ C<count_by>, C<extract_by>, C<weighted_shuffle_by> are limitated some features.
 
 Limitations are:
 
-=head2 Don't change argument C<$_>
+=head2 Don't change argument C<$_> in code block
 
 L<List::UtilsBy> localizes C<$_> in the code block, but List::UtilsBy::XS
 doesn't localize it and it is only alias same as C<map>, C<grep>. So you
 should not modify C<$_> in callback subroutine.
 
-=head2 Can't access to arguments as C<@_>
+=head2 Can't access to arguments as C<@_> in code block
 
 You can access argument as only C<$_> and cannot access as C<@_>,
 C<$_[n]>.
@@ -50,7 +84,7 @@ Syohei YOSHIDA E<lt>syohex@gmail.comE<gt>
 
 =head1 COPYRIGHT
 
-Copyright 2011- Syohei YOSHIDA
+Copyright 2013- Syohei YOSHIDA
 
 =head1 LICENSE
 
