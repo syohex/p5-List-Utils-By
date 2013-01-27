@@ -59,7 +59,7 @@ but some functions have limitation. See L<LIMITATION> section.
 
 =head1 DESCRIPTION
 
-List::UtilsBy::XS is XS implamentation of List::UtilsBy.
+List::UtilsBy::XS is XS implementation of List::UtilsBy.
 Functions are more fast than original ones.
 
 =head1 FUNCTIONS
@@ -105,7 +105,7 @@ List::UtilsBy::XS implements following functions.
 Some functions are implemented by lightweight callback API.
 C<sort_by>, C<rev_sort_by>, C<nsort_by>, C<rev_nsort_by>,
 C<min_by>, C<max_by>, C<nmin_by>, C<nmax_by>, C<uniq_by>, C<partion_by>,
-C<count_by>, C<extract_by>, C<weighted_shuffle_by> are limitated some features.
+C<count_by>, C<extract_by>, C<weighted_shuffle_by> are limited some features.
 
 Limitations are:
 
