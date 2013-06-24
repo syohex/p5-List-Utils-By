@@ -1,0 +1,6 @@
+[build]
+build_class = "builder::MyBuilder"
+
+[no_index]
+directory = ['t', 'xt', 'benchmark', 'builder']
+

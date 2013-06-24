@@ -8,3 +8,8 @@ on build => sub {
     requires 'ExtUtils::ParseXS', '2.21';
     requires 'Test::More', '0.88';
 };
+
+on configure => sub {
+    requires 'Module::Build::XSUtil' => '>=0.02';
+};
+
