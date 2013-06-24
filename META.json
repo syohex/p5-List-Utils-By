@@ -29,9 +29,6 @@
    "prereqs" : {
       "build" : {
          "requires" : {
-            "Devel::PPPort" : "3.2",
-            "ExtUtils::MakeMaker" : "6.59",
-            "ExtUtils::ParseXS" : "2.21",
             "Test::More" : "0.88"
          }
       },
