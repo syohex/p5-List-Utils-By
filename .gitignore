@@ -11,3 +11,10 @@ xs-src/UtilsBy.[co]
 pm_to_blib
 ppport.h
 *~
+/List-UtilsBy-XS-*
+/.build
+/_build_params
+/Build
+!Build/
+!META.json
+!LICENSE
