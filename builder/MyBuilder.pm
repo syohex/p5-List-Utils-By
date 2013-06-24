@@ -8,9 +8,12 @@ sub new {
     my ( $class, %args ) = @_;
     my $self = $class->SUPER::new(
         %args,
-        generate_ppport_h     => 'path/to/ppport.h',
-        generate_xs_helper_h => 'lib/Your/XS/xshelper.h',
-        needs_compiler_c99   => 1,
+        c_source => 'xs-src',
+        xs_files => {
+            './xs-src/UtilsBy.xs' => './lib/List/UtilsBy/XS.xs',
+        },
+        generate_ppport_h  => 'lib/List/UtilsBy/ppport.h',
+        needs_compiler_c99 => 1,
     );
     return $self;
 }
