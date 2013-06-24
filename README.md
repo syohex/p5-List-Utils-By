@@ -26,8 +26,8 @@ List::UtilsBy::XS implements following functions.
 - nsort\_by
 - rev\_sort\_by
 - rev\_nsort\_by
-- max\_by(alias nmax\_by)
-- min\_by(alias nmin\_by)
+- max\_by (alias nmax\_by)
+- min\_by (alias nmin\_by)
 - uniq\_by
 - partition\_by
 - count\_by
