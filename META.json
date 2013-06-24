@@ -21,7 +21,9 @@
          "share",
          "eg",
          "examples",
-         "author"
+         "author",
+         "benchmark",
+         "builder"
       ]
    },
    "prereqs" : {
@@ -37,7 +39,8 @@
          "requires" : {
             "CPAN::Meta" : "0",
             "CPAN::Meta::Prereqs" : "0",
-            "Module::Build" : "0.38"
+            "Module::Build" : "0.38",
+            "Module::Build::XSUtil" : "0.02"
          }
       },
       "develop" : {
