@@ -1,6 +1,7 @@
 Revision history for Perl extension List::UtilsBy::XS
 
 {{$NEXT}}
+        - Add CFLAGS(-DPERL_EXT) for older Perl
 
 0.02 2013-06-24T05:35:29Z
         - Convert to Minilla
