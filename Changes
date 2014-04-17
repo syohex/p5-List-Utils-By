@@ -1,6 +1,7 @@
 Revision history for Perl extension List::UtilsBy::XS
 
 {{$NEXT}}
+        - Fix floating numbers sort issue(#2)
 
 0.03 2013-06-25T02:27:07Z
         - Add CFLAGS(-DPERL_EXT) for older Perl
