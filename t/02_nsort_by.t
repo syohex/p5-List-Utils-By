@@ -20,6 +20,9 @@ use List::UtilsBy::XS qw( nsort_by rev_nsort_by );
     @gots = nsort_by { $_ } 25, 20;
     is_deeply(\@gots, [ 20, 25 ], 'identity function on $_' );
 
+    @gots = nsort_by { $_ } 1.0, 2.1, 1.5;
+    is_deeply(\@gots, [ 1.0, 1.5, 2.1 ], 'floating numbers sort' );
+
     is_deeply( [ nsort_by { length $_ } "a", "bbb", "cc" ], [ "a", "cc", "bbb" ], 'length function' );
 
     # List context would yield the matches and fail, scalar context would yield
@@ -42,6 +45,9 @@ use List::UtilsBy::XS qw( nsort_by rev_nsort_by );
 
     @gots = rev_nsort_by { $_ } 25, 20;
     is_deeply(\@gots, [ 25, 20 ], 'identity function on $_' );
+
+    @gots = rev_nsort_by { $_ } 1.0, 2.0, 1.5;
+    is_deeply(\@gots, [ 2.0, 1.5, 1.0 ], 'floating numbers sort' );
 
     @gots = rev_nsort_by { length $_ } "a", "bbb", "cc";
     $expected = [ qw/bbb cc a/ ];

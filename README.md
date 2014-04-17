@@ -9,7 +9,7 @@ List::UtilsBy::XS - XS implementation of List::UtilsBy
     sort_by { $_->{foo} } @hash_ref_list
 
 You can use those functions same as List::UtilsBy ones,
-but some functions have limitation. See [LIMITATION](http://search.cpan.org/perldoc?LIMITATION) section.
+but some functions have limitation. See [LIMITATION](https://metacpan.org/pod/LIMITATION) section.
 
 # DESCRIPTION
 
@@ -18,7 +18,7 @@ Functions are more fast than original ones.
 
 # FUNCTIONS
 
-Same as [List::UtilsBy](http://search.cpan.org/perldoc?List::UtilsBy)
+Same as [List::UtilsBy](https://metacpan.org/pod/List::UtilsBy)
 
 List::UtilsBy::XS implements following functions.
 
@@ -48,7 +48,7 @@ Limitations are:
 
 ## Don't change argument `$_` in code block
 
-[List::UtilsBy](http://search.cpan.org/perldoc?List::UtilsBy) localizes `$_` in the code block, but List::UtilsBy::XS
+[List::UtilsBy](https://metacpan.org/pod/List::UtilsBy) localizes `$_` in the code block, but List::UtilsBy::XS
 doesn't localize it and it is only alias same as `map`, `grep`. So you
 should not modify `$_` in callback subroutine.
 
@@ -72,4 +72,4 @@ it under the same terms as Perl itself.
 
 # SEE ALSO
 
-[List::UtilsBy](http://search.cpan.org/perldoc?List::UtilsBy)
+[List::UtilsBy](https://metacpan.org/pod/List::UtilsBy)

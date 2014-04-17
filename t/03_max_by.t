@@ -33,4 +33,7 @@ is_deeply(\@gots, $expected, 'ties yield all maximal in list context');
 
 is_deeply( ( scalar nmax_by { $_ } 10, 20 ), 20, 'nmax_by alias');
 
+@gots  = max_by { $_ } '0.1', '0.5', '0.2', '0.4';
+is $gots[0], '0.5';
+
 done_testing;

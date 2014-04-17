@@ -35,13 +35,13 @@ static I32
 sv_cmp_number_asc(pTHX_ SV *sv1, SV *sv2)
 {
     struct sort_elem *se1, *se2;
-    IV key1, key2;
+    NV key1, key2;
 
     se1 = (struct sort_elem*)SvIV(sv1);
     se2 = (struct sort_elem*)SvIV(sv2);
 
-    key1 = SvIV(se1->key);
-    key2 = SvIV(se2->key);
+    key1 = SvNV(se1->key);
+    key2 = SvNV(se2->key);
 
     return (key1 > key2)
            ? 1 : (key1 == key2)
@@ -52,13 +52,13 @@ static I32
 sv_cmp_number_desc(pTHX_ SV *sv1, SV *sv2)
 {
     struct sort_elem *se1, *se2;
-    IV key1, key2;
+    NV key1, key2;
 
     se1 = (struct sort_elem*)SvIV(sv1);
     se2 = (struct sort_elem*)SvIV(sv2);
 
-    key1 = SvIV(se2->key);
-    key2 = SvIV(se1->key);
+    key1 = SvNV(se2->key);
+    key2 = SvNV(se1->key);
 
     return (key1 > key2)
            ? 1 : (key1 == key2)
@@ -218,7 +218,7 @@ CODE:
     I32 const len = items - 1;
     int i;
     AV *tmps;
-    IV max;
+    NV max;
     IV ret_count = 0;
     struct sort_elem *elems, *first;
 
@@ -266,7 +266,7 @@ CODE:
     }
 
     first = (struct sort_elem *)SvIV(*av_fetch(tmps, 0, 0));
-    max   = SvIV(first->key);
+    max   = SvNV(first->key);
     ST(0) = first->orig;
     ret_count++;
 
@@ -278,7 +278,7 @@ CODE:
         struct sort_elem *elem;
         elem  = (struct sort_elem *)SvIV(*av_fetch(tmps, i-1, 0));
 
-        if (max == SvIV(elem->key)) {
+        if (max == SvNV(elem->key)) {
             ST(ret_count) = elem->orig;
             ret_count++;
         } else {
