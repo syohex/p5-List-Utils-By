@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/syohex/p5-List-Utils-By.png?branch=master)](https://travis-ci.org/syohex/p5-List-Utils-By)
 # NAME
 
 List::UtilsBy::XS - XS implementation of List::UtilsBy
