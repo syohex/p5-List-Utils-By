@@ -1,3 +1,5 @@
+badges = ['travis']
+
 [build]
 build_class = "builder::MyBuilder"
 
