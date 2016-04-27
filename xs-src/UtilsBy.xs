@@ -617,7 +617,7 @@ CODE:
     dMULTICALL;
     GV *gv;
     HV *stash;
-    I32 gimme = G_SCALAR;
+    I32 gimme = G_SCALAR, ret_gimme = GIMME_V;
     SV **args = &PL_stack_base[ax];
     IV i, len;
     AV *ret_vals, *remains, *origs;
@@ -671,9 +671,14 @@ CODE:
         av_push(origs, newSVsv(val));
     }
 
-    len = av_len(ret_vals) + 1;
-    for (i = 0; i < len; i++) {
-        ST(i) = sv_mortalcopy(*av_fetch(ret_vals, i, 0));
+    if (ret_gimme == G_SCALAR) {
+        len = 1;
+        ST(0) = sv_2mortal(newSViv(av_len(ret_vals)+1));
+    } else {
+        len = av_len(ret_vals) + 1;
+        for (i = 0; i < len; i++) {
+            ST(i) = sv_mortalcopy(*av_fetch(ret_vals, i, 0));
+        }
     }
 
     XSRETURN(len);
