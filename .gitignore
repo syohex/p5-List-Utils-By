@@ -18,3 +18,7 @@ ppport.h
 !Build/
 !META.json
 !LICENSE
+/_build
+/lib/List/UtilsBy/XS.c
+/lib/List/UtilsBy/XS.xs
+/lib/List/UtilsBy/XS.o
