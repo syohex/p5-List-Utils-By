@@ -26,6 +26,16 @@ $expected = [ 1, 2, 4, 5, 7, 8, 10 ];
 is_deeply(\@gots, $expected, 'extract true returns all') || diag explain \@gots;
 is_deeply( \@numbers, [], 'extract true leaves nothing' );
 
+subtest 'scalar context' => sub {
+    my @input = qw(a b c d e f);
+    my $g = extract_by { 1 } @input;
+    is $g, 6, "Return list length in scalar context";
+
+    my @input2 = qw(a b c d e f);
+    my $g2 = extract_by { m/\A[bd]\z/ } @input2;
+    is $g2, 2;
+};
+
 TODO: {
     todo_skip "not implemented", 6;
 
@@ -46,4 +56,3 @@ TODO: {
 }
 
 done_testing;
-
