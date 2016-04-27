@@ -48,6 +48,11 @@ no_leaks_ok {
     my @a = extract_by { $_ } @array;
 } 'extract_by';
 
+my @array2 = (1..10);
+no_leaks_ok {
+    my $a = extract_by { $_ } @array2;
+} 'extract_by with scalar context';
+
 no_leaks_ok {
     my @a = weighted_shuffle_by { $_ } 1..10;
 } 'weighted_shuffle_by';
