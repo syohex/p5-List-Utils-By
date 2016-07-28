@@ -4,7 +4,7 @@
       "Syohei YOSHIDA <syohex@gmail.com>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Minilla/v2.1.1, CPAN::Meta::Converter version 2.142060",
+   "generated_by" : "Minilla/v3.0.3, CPAN::Meta::Converter version 2.150001",
    "license" : [
       "perl_5"
    ],
@@ -34,7 +34,7 @@
       },
       "configure" : {
          "requires" : {
-            "Module::Build" : "0.38",
+            "Module::Build" : "0.4005",
             "Module::Build::XSUtil" : "0.02"
          }
       },
