@@ -1,4 +1,6 @@
+name = "List-UtilsBy-XS"
 badges = ['travis']
+module_maker="ModuleBuild"
 
 [build]
 build_class = "builder::MyBuilder"
