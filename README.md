@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/syohex/p5-List-Utils-By.svg?branch=master)](https://travis-ci.org/syohex/p5-List-Utils-By)
+[![Build Status](https://travis-ci.org/syohex/p5-List-Utils-By.svg?branch=master)](https://travis-ci.org/syohex/p5-List-Utils-By) [![MetaCPAN Release](https://badge.fury.io/pl/p5-List-Utils-By.svg)](https://metacpan.org/release/p5-List-Utils-By)
 # NAME
 
 List::UtilsBy::XS - XS implementation of List::UtilsBy
