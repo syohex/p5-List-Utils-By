@@ -1,5 +1,5 @@
 name = "List-UtilsBy-XS"
-badges = ['travis', 'metacpan']
+badges = ['travis']
 module_maker="ModuleBuild"
 
 [build]
