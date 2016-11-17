@@ -4,7 +4,7 @@
       "Syohei YOSHIDA <syohex@gmail.com>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Minilla/v3.0.3, CPAN::Meta::Converter version 2.150001",
+   "generated_by" : "Minilla/v3.0.4, CPAN::Meta::Converter version 2.150010",
    "license" : [
       "perl_5"
    ],
@@ -67,5 +67,6 @@
          "web" : "https://github.com/syohex/p5-List-Utils-By"
       }
    },
-   "version" : "0.04"
+   "version" : "0.04",
+   "x_serialization_backend" : "JSON::PP version 2.27400"
 }
