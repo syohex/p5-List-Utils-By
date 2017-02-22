@@ -1,6 +1,7 @@
 Revision history for Perl extension List::UtilsBy::XS
 
 {{$NEXT}}
+        - Fix build issue on newer Perl(5.25.9 or higher versions)
 
 0.04 2014-04-17T15:29:06Z
         - Fix floating numbers sort issue(#2)
