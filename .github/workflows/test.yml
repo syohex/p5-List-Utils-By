@@ -1,0 +1,23 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        perl: [ '5.32', '5.30', '5.28' ]
+    name: Perl ${{ matrix.perl }}
+    steps:
+      - uses: actions/checkout@v1
+      - name: Setup perl
+        uses: shogo82148/actions-setup-perl@v1
+        with:
+          perl-version: ${{ matrix.perl }}
+      - name: Install dependencies
+        run: cpanm --installdeps .
+      - name: Build
+        run: |
+          perl Build.PL
+          ./Build
+      - name: Run test
+        run: ./Build test
