@@ -5,7 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        perl: [ '5.32', '5.30', '5.28' ]
+        perl: [ '5.34', '5.32', '5.30' ]
     name: Perl ${{ matrix.perl }}
     steps:
       - uses: actions/checkout@v1
@@ -14,7 +14,7 @@ jobs:
         with:
           perl-version: ${{ matrix.perl }}
       - name: Install dependencies
-        run: cpanm --installdeps .
+        run: cpanm --installdeps --with-configure .
       - name: Build
         run: |
           perl Build.PL
