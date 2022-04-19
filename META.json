@@ -4,7 +4,7 @@
       "Syohei YOSHIDA <syohex@gmail.com>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Minilla/v3.1.10, CPAN::Meta::Converter version 2.150010",
+   "generated_by" : "Minilla/v3.1.16, CPAN::Meta::Converter version 2.150010",
    "license" : [
       "perl_5"
    ],
@@ -63,11 +63,11 @@
       "homepage" : "https://github.com/syohex/p5-List-Utils-By",
       "repository" : {
          "type" : "git",
-         "url" : "git://github.com/syohex/p5-List-Utils-By.git",
+         "url" : "https://github.com/syohex/p5-List-Utils-By.git",
          "web" : "https://github.com/syohex/p5-List-Utils-By"
       }
    },
-   "version" : "0.05",
-   "x_serialization_backend" : "JSON::PP version 4.04",
+   "version" : "0.06",
+   "x_serialization_backend" : "JSON::PP version 4.07",
    "x_static_install" : 0
 }
