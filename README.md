@@ -1,4 +1,4 @@
-[![Actions Status](https://github.com/syohex/p5-List-Utils-By/workflows/CI/badge.svg)](https://github.com/syohex/p5-List-Utils-By/actions) [![MetaCPAN Release](https://badge.fury.io/pl/List-UtilsBy-XS.svg)](https://metacpan.org/release/List-UtilsBy-XS)
+[![Actions Status](https://github.com/syohex/p5-List-Utils-By/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/syohex/p5-List-Utils-By/actions?workflow=test) [![MetaCPAN Release](https://badge.fury.io/pl/List-UtilsBy-XS.svg)](https://metacpan.org/release/List-UtilsBy-XS)
 # NAME
 
 List::UtilsBy::XS - XS implementation of List::UtilsBy
